@@ -2,6 +2,16 @@ name: Show Env Variables
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select the environment you want'
+        required: true
+        type: choice
+        default: 'dev'
+        options:
+          - dev
+          - stg
+          - prd
 
 env:
   NAME: Sumeet
