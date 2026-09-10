@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shoply — Modern E-Commerce Store</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #172033;
+      --muted: #6b7280;
+      --line: #e8eaf0;
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --accent: #5b4bdb;
+      --accent-dark: #4738c4;
+      --soft: #eeeafd;
+      --success: #14804a;
+    }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    .container { width: min(1180px, 92%); margin: auto; }
+
+    /* Header */
+    .topbar {
+      background: var(--ink); color: #fff; font-size: 13px;
+      padding: 9px 0; text-align: center;
+    }
+    header {
+      background: #fff; border-bottom: 1px solid var(--line);
+      position: sticky; top: 0; z-index: 20;
+    }
+    .nav {
+      min-height: 72px; display: flex; align-items: center; gap: 28px;
+    }
+    .logo { font-size: 25px; font-weight: 900; letter-spacing: -1px; }
+    .logo span { color: var(--accent); }
+    .search {
+      flex: 1; display: flex; max-width: 520px; margin-left: auto;
+      background: #f4f5f8; border: 1px solid #e8e9ef; border-radius: 12px;
+      overflow: hidden;
+    }
+    .search input {
+      flex: 1; border: 0; outline: 0; background: transparent;
+      padding: 12px 15px; color: var(--ink);
+    }
+    .search button {
+      border: 0; background: transparent; padding: 0 15px; cursor: pointer;
+    }
+    .nav-actions { display: flex; gap: 10px; align-items: center; }
+    .icon-btn {
+      width: 42px; height: 42px; border: 1px solid var(--line);
+      background: #fff; border-radius: 10px; cursor: pointer; position: relative;
+    }
+    .badge {
+      position: absolute; top: -5px; right: -5px; background: var(--accent);
+      color: #fff; width: 19px; height: 19px; border-radius: 50%;
+      font-size: 11px; display: grid; place-items: center; font-weight: 700;
+    }
+    .menu { display: none; border: 0; background: none; font-size: 24px; }
+
+    /* Hero */
+    .hero {
+      margin: 34px 0; border-radius: 24px; overflow: hidden;
+      min-height: 410px; position: relative;
+      background:
+        linear-gradient(90deg, rgba(15,22,42,.88) 0%, rgba(15,22,42,.65) 42%, rgba(15,22,42,.05) 75%),
+        url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=85") center/cover;
+      display: flex; align-items: center;
+    }
+    .hero-content { color: #fff; width: min(550px, 90%); padding: 48px; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 2px; font-weight: 800; font-size: 12px; color: #d8d3ff; }
+    .hero h1 { font-size: clamp(38px, 5vw, 62px); line-height: 1.02; margin: 12px 0 16px; letter-spacing: -2px; }
+    .hero p { color: #e9eaf1; max-width: 470px; }
+    .cta {
+      display: inline-block; margin-top: 25px; padding: 13px 21px; border-radius: 10px;
+      background: var(--accent); color: #fff; font-weight: 800;
+      border: 0; cursor: pointer;
+    }
+    .cta:hover { background: var(--accent-dark); }
+
+    /* Categories */
+    .section-head {
+      display: flex; align-items: end; justify-content: space-between; margin: 36px 0 18px;
+    }
+    .section-head h2 { font-size: 25px; }
+    .section-head a { color: var(--accent); font-weight: 700; font-size: 14px; }
+    .categories { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .category {
+      position: relative; min-height: 150px; border-radius: 17px; overflow: hidden;
+      color: #fff; display: flex; align-items: end; padding: 20px;
+      font-weight: 900; font-size: 20px;
+    }
+    .category::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,.62), transparent 70%);
+    }
+    .category img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .category span { position: relative; z-index: 1; }
+
+    /* Products */
+    .products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .product {
+      background: var(--card); border: 1px solid var(--line); border-radius: 17px;
+      overflow: hidden; transition: transform .2s, box-shadow .2s;
+    }
+    .product:hover { transform: translateY(-4px); box-shadow: 0 14px 35px rgba(20,25,50,.09); }
+    .product-img { height: 240px; position: relative; overflow: hidden; background: #f0f1f4; }
+    .product-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
+    .product:hover .product-img img { transform: scale(1.04); }
+    .tag {
+      position: absolute; top: 12px; left: 12px; background: #fff; color: var(--ink);
+      border-radius: 7px; padding: 5px 8px; font-size: 11px; font-weight: 900;
+    }
+    .heart {
+      position: absolute; top: 10px; right: 10px; border: 0; background: #fff;
+      width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 17px;
+    }
+    .product-body { padding: 15px; }
+    .product-body small { color: var(--muted); }
+    .product-body h3 { font-size: 16px; margin: 4px 0; }
+    .rating { color: #f59e0b; font-size: 13px; }
+    .price { margin-top: 8px; display: flex; gap: 8px; align-items: center; }
+    .price strong { font-size: 18px; }
+    .old { color: #9ca3af; text-decoration: line-through; font-size: 13px; }
+    .add {
+      width: 100%; margin-top: 12px; border: 1px solid var(--accent);
+      background: var(--soft); color: var(--accent-dark); padding: 9px;
+      border-radius: 9px; font-weight: 800; cursor: pointer;
+    }
+    .add:hover { background: var(--accent); color: #fff; }
+
+    /* Benefits */
+    .benefits {
+      margin: 52px 0; background: #fff; border: 1px solid var(--line);
+      border-radius: 18px; display: grid; grid-template-columns: repeat(3, 1fr);
+    }
+    .benefit { padding: 25px; display: flex; gap: 14px; align-items: center; }
+    .benefit + .benefit { border-left: 1px solid var(--line); }
+    .benefit-icon { font-size: 25px; }
+    .benefit strong { display: block; }
+    .benefit span { color: var(--muted); font-size: 13px; }
+
+    footer { background: #121827; color: #c8ceda; margin-top: 60px; padding: 42px 0 25px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 30px; }
+    footer h3 { color: #fff; margin-bottom: 12px; }
+    footer a { display: block; font-size: 14px; margin: 7px 0; }
+    footer a:hover { color: #fff; }
+    .copyright { border-top: 1px solid #293143; margin-top: 30px; padding-top: 18px; font-size: 12px; }
+
+    @media (max-width: 900px) {
+      .products { grid-template-columns: repeat(2, 1fr); }
+      .categories { grid-template-columns: repeat(2, 1fr); }
+      .search { max-width: none; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 650px) {
+      .nav { gap: 10px; }
+      .search { order: 3; width: 100%; flex-basis: 100%; }
+      .nav { flex-wrap: wrap; padding: 12px 0; }
+      .menu { display: block; }
+      .nav-links { display: none; }
+      .hero { min-height: 470px; }
+      .hero-content { padding: 28px; }
+      .products, .categories { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .product-img { height: 190px; }
+      .benefits { grid-template-columns: 1fr; }
+      .benefit + .benefit { border-left: 0; border-top: 1px solid var(--line); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 430px) {
+      .products, .categories { grid-template-columns: 1fr; }
+      .product-img { height: 260px; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">Free shipping on orders over $75 · Easy 30-day returns</div>
+
+  <header>
+    <div class="container nav">
+      <button class="menu" aria-label="Menu">☰</button>
+      <a class="logo" href="#">shop<span>ly</span></a>
+
+      <form class="search" onsubmit="event.preventDefault(); alert('Search submitted: ' + this.q.value)">
+        <input name="q" placeholder="Search products..." aria-label="Search products">
+        <button aria-label="Search">⌕</button>
+      </form>
+
+      <div class="nav-actions">
+        <button class="icon-btn" title="Account">♙</button>
+        <button class="icon-btn" title="Wishlist">♡</button>
+        <button class="icon-btn" title="Cart" onclick="showCart()">🛒<span class="badge" id="cartCount">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">New season · Up to 40% off</div>
+        <h1>Find your next favorite.</h1>
+        <p>Curated everyday essentials, thoughtful design, and great prices — all in one simple shopping experience.</p>
+        <a href="#products" class="cta">Shop the collection →</a>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <h2>Shop by category</h2>
+      <a href="#products">View all →</a>
+    </div>
+
+    <section class="categories">
+      <a class="category" href="#products">
+        <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=700&q=80" alt="Fashion">
+        <span>Fashion</span>
+      </a>
+      <a class="category" href="#products">
+        <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=700&q=80" alt="Home">
+        <span>Home & Living</span>
+      </a>
+      <a class="category" href="#products">
+        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80" alt="Audio">
+        <span>Electronics</span>
+      </a>
+      <a class="category" href="#products">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80" alt="Shoes">
+        <span>Footwear</span>
+      </a>
+    </section>
+
+    <div class="section-head" id="products">
+      <h2>Trending now</h2>
+      <a href="#">See all products →</a>
+    </div>
+
+    <section class="products">
+      <article class="product">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80" alt="Classic cotton t-shirt">
+          <span class="tag">BESTSELLER</span>
+          <button class="heart" onclick="toggleHeart(this)">♡</button>
+        </div>
+        <div class="product-body">
+          <small>North Studio</small>
+          <h3>Classic Cotton Tee</h3>
+          <div class="rating">★★★★★ <span>(124)</span></div>
+          <div class="price"><strong>$29</strong><span class="old">$39</span></div>
+          <button class="add" onclick="addToCart('Classic Cotton Tee', 29)">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="product">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80" alt="Red running shoes">
+          <span class="tag">20% OFF</span>
+          <button class="heart" onclick="toggleHeart(this)">♡</button>
+        </div>
+        <div class="product-body">
+          <small>Stride Co.</small>
+          <h3>Everyday Runner</h3>
+          <div class="rating">★★★★☆ <span>(89)</span></div>
+          <div class="price"><strong>$72</strong><span class="old">$90</span></div>
+          <button class="add" onclick="addToCart('Everyday Runner', 72)">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="product">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80" alt="Wireless headphones">
+          <button class="heart" onclick="toggleHeart(this)">♡</button>
+        </div>
+        <div class="product-body">
+          <small>Sound Lab</small>
+          <h3>Wireless Headphones</h3>
+          <div class="rating">★★★★★ <span>(211)</span></div>
+          <div class="price"><strong>$119</strong></div>
+          <button class="add" onclick="addToCart('Wireless Headphones', 119)">Add to cart</button>
+        </div>
+      </article>
+
+      <article class="product">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?auto=format&fit=crop&w=700&q=80" alt="Minimal desk chair">
+          <span class="tag">NEW</span>
+          <button class="heart" onclick="toggleHeart(this)">♡</button>
+        </div>
+        <div class="product-body">
+          <small>Form Living</small>
+          <h3>Minimal Lounge Chair</h3>
+          <div class="rating">★★★★★ <span>(56)</span></div>
+          <div class="price"><strong>$189</strong></div>
+          <button class="add" onclick="addToCart('Minimal Lounge Chair', 189)">Add to cart</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="benefits">
+      <div class="benefit">
+        <div class="benefit-icon">🚚</div>
+        <div><strong>Fast delivery</strong><span>Free shipping over $75</span></div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">↩️</div>
+        <div><strong>Easy returns</strong><span>30-day hassle-free returns</span></div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">🔒</div>
+        <div><strong>Secure checkout</strong><span>Your payment is protected</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3>shoply</h3>
+          <p>A simple, modern storefront demo built with HTML and CSS.</p>
+        </div>
+        <div>
+          <h3>Shop</h3>
+          <a href="#">New arrivals</a><a href="#">Best sellers</a><a href="#">Sale</a>
+        </div>
+        <div>
+          <h3>Help</h3>
+          <a href="#">Shipping</a><a href="#">Returns</a><a href="#">Contact</a>
+        </div>
+        <div>
+          <h3>Company</h3>
+          <a href="#">About us</a><a href="#">Careers</a><a href="#">Privacy</a>
+        </div>
+      </div>
+      <div class="copyright">© 2026 Shoply. Demo storefront for learning and prototyping.</div>
+    </div>
+  </footer>
+
+  <script>
+    let cartCount = 0;
+
+    function addToCart(name, price) {
+      cartCount++;
+      document.getElementById("cartCount").textContent = cartCount;
+      alert(`${name} added to cart — $${price}`);
+    }
+
+    function toggleHeart(button) {
+      button.textContent = button.textContent === "♡" ? "♥" : "♡";
+      button.style.color = button.textContent === "♥" ? "#e11d48" : "";
+    }
+
+    function showCart() {
+      alert(cartCount ? `You have ${cartCount} item(s) in your cart.` : "Your cart is empty.");
+    }
+  </script>
+</body>
+</html>
