@@ -14,5 +14,5 @@ jobs:
   runs-on: ubuntu-latest
  # The sequence of steps the Job does 
   steps:
-    -name: Say Hello
+    - name: Say Hello
      run: echo "Hello Friends"
