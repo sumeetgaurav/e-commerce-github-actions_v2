@@ -12,3 +12,5 @@ jobs:
     steps:
       - name: Show Plain Text Env
         run: echo "My name is ${{ env.NAME }}"
+      - name: Show Secrets
+        run: echo "The Secret is ${{ secrets.TEXT_SECRET }}"
