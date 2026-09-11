@@ -2,8 +2,10 @@
 
 name: CICD Demo
 
-on: 
- push:
+on:
+  push:
+   paths-ignore:
+     - 'README.md'
 
 jobs:
 #CI
