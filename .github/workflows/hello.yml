@@ -6,6 +6,8 @@ name: Hello
 # When the Workflow runs
 on:
   push:
+   paths-ignore:
+     - 'README.md'
 
 jobs:
   # name of your workflow
