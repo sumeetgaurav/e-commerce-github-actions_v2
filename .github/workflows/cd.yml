@@ -1,0 +1,18 @@
+# Goal: To deploy the built and tested image to an EC2 instance
+
+name: CD
+
+on:
+    workflow_dispatch:
+
+jobs:
+    deploy:
+        runs-on: self-hosted
+        steps:
+            - name: Code Checkout
+              uses: actions/checkout@v7
+
+
+            - name: Run docker container
+              run: docker compose up -d --build --force-recreate
+              
