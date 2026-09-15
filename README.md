@@ -2,7 +2,7 @@
 
 [![DevSecOps](https://github.com/sumeetgaurav/e-commerce-github-actions_v2/actions/workflows/devsecops_pipleline.yml/badge.svg)](https://github.com/sumeetgaurav/e-commerce-github-actions_v2/actions/workflows/devsecops_pipleline.yml)
 
-A hands-on learning repo for **GitHub Actions, CI/CD, and DevSecOps**. The app itself — a tiny Flask-based storefront called **Shoply** — is intentionally minimal. The real content is the collection of **17 GitHub Actions workflows** in [`.github/workflows/`](.github/workflows/) that progressively build up from "hello world" basics to a full **shift-left → shift-right DevSecOps pipeline**: lint & test → secrets scan → SAST → dependency scan → container image scan → build & push → deploy → DAST.
+A hands-on learning repo for **GitHub Actions, CI/CD, and DevSecOps**. The app itself — a tiny Flask-based storefront called **Shoply** — is intentionally minimal. The real content is the collection of **16 GitHub Actions workflows** in [`.github/workflows/`](.github/workflows/) that progressively build up from "hello world" basics to a full **shift-left → shift-right DevSecOps pipeline**: lint & test → secrets scan → SAST → dependency scan → container image scan → build & push → deploy → DAST.
 
 ---
 
