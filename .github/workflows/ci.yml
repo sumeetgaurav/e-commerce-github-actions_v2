@@ -3,7 +3,7 @@
 name: CI
 
 on:
-  Workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   code-lint:
