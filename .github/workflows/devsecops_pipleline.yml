@@ -27,7 +27,13 @@ jobs:
         dependency-scan:
         needs: sast
         uses: ./.github/workflows/dependency_scan.yml
-        
+
+    # Build & Scan
+    build-and-scan:
+        secrets: inherit
+        needs: dependency-scan
+        uses: ./.github/workflows/trivy_scans.yml
+
     # Dependency Scan
   #  dependency-scan:
        # needs: sast
