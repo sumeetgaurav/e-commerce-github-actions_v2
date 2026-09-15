@@ -23,7 +23,6 @@ jobs:
         - name: Dependency Scan for Pip
           uses: pypa/gh-action-pip-audit@v1.1.0
 
-       # Dependency check for any aaplication using Dependency Check Action
         - name: Depcheck
           uses: dependency-check/Dependency-Check_Action@main
           id: Depcheck
