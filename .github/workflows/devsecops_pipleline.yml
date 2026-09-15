@@ -1,0 +1,52 @@
+# Goal is to call the workflows in the order to implement shift left
+
+name: DevSecOps 
+
+on:
+    push:
+
+jobs:
+    # Secrets Scan
+    secret-scan:
+        uses: ./.github/workflows/secrets-scanning.yml
+        secrets: inherit
+
+    # Code
+    code:
+        needs: secret-scan
+        uses: ./.github/workflows/lint_and_test.yml
+    
+    # SAST
+    sast:
+        needs: code
+        uses: ./.github/workflows/sonar_scan.yml
+        secrets: inherit
+
+    # Dependency Scan
+    dependency-scan:
+        needs: sast
+        uses: ./.github/workflows/dependency_scan.yml
+
+    # Build & Scan
+    #build-and-scan:
+        #secrets: inherit
+       # needs: dependency-scan
+        #uses: ./.github/workflows/trivy_scans.yml
+
+    # Push to Docker HUb
+   # docker-push:
+      #  secrets: inherit
+      #  needs: build-and-scan
+      #  uses: ./.github/workflows/docker_push.yml
+    
+    # Deploy
+   # deploy:
+        #secrets: inherit
+       # needs: [docker-push]
+       # uses: ./.github/workflows/cd.yml
+
+    # DAST (Shift right)
+   # dast:
+        #secrets: inherit
+     #   needs: [deploy]
+       # uses: ./.github/workflows/dast.yml
